@@ -80,7 +80,7 @@ class MyWebServer(SocketServer.BaseRequestHandler):
             #print("ERROR###############################################\r\n\r\n")
 
     def send405(self, fullUrl):
-        self.request.sendall('HTTP/1.1 405 Method Allowed Found\r\n')
+        self.request.sendall('HTTP/1.1 405 Method Not Allowed\r\n')
         return
 
     def send404(self, fullUrl):
