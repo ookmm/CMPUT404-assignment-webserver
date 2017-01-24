@@ -65,6 +65,8 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         # print 'method is ' + method
 
         try:
+            if not method == 'GET':
+                self.send405(fullUrl)
             if os.path.exists(fullUrl) and method == 'GET':
                 if desiredPath[-1] != '/' and os.path.isdir(fullUrl): #the current directory contains no files
                     self.send301(fullUrl, desiredPath)
@@ -76,6 +78,10 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         except IOError:
             self.send404(fullUrl)
             #print("ERROR###############################################\r\n\r\n")
+
+    def send405(self, fullUrl):
+        self.request.sendall('HTTP/1.1 405 Method Allowed Found\r\n')
+        return
 
     def send404(self, fullUrl):
         self.request.sendall('HTTP/1.1 404 Not Found\r\n')
